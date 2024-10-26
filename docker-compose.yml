@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db1  
+      - db2
+      - redis
+    environment:
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_HOST: db1
+      DB_PORT: 5432
+      DB_NAME: db1
+      DATABASE_URL: postgresql://user:password@db1:5432/db1
+      MONGO_URI: mongodb://db2:27017/social_mongo
+      REDIS_URL: redis://redis:6379
+    networks:
+      - default
+
+  db1:
+    image: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db1
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - default
+
+  db2:
+    image: mongo
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - default
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: tarea@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    depends_on:
+      - db1
+    ports:
+      - "5050:80"
+    networks:
+      - default
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - default
+
+volumes:
+  postgres_data:
+  mongo_data:
+
+networks:
+  default:
+    driver: bridge

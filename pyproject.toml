@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "red-social"
+version = "0.1.0"
+description = ""
+authors = ["FabianDiazB <fabiandiazbarboza@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.3"
+uvicorn = "^0.32.0"
+pymongo = "^4.10.1"
+psycopg2 = "^2.9.10"
+redis = "^5.2.0"
+pyjwt = "^2.9.0"
+passlib = "^1.7.4"
+python-jose = "^3.3.0"
+config = "^0.5.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
